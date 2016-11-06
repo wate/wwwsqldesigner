@@ -2,21 +2,23 @@
 
 error_reporting(E_ALL);
 
-$config = array(
-    'saveloadlist' => array(
+# BEGIN ANSIBLE MANAGED BLOCK
+$config = [
+    'saveloadlist' => [
         'type' => 'mysql',
         'dns' => 'mysql:dbname=wwwsqldesigner;host=localhost',
         'user' => 'wwwsqldesigner',
         'pass' => 'passw0rd',
         'table' => 'wwwsqldesigner',
-    ),
-    'import' => array(
+    ],
+    'import' => [
         'type' => 'pgsql',
         'dns' => 'pgsql:dbname=information_schema;host=localhost',
         'user' => 'wwwsqldesigner_import_user',
         'pass' => 'import_passw0rd',
-    ),
-);
+    ],
+];
+# END ANSIBLE MANAGED BLOCK
 
 BackendPhpPdo::setConfig($config);
 
@@ -44,14 +46,14 @@ class BackendPhpPdo
                 $pass = static::$config['saveloadlist']['pass'];
                 $table = static::$config['saveloadlist']['table'];
 
-                return array($type, $dsn, $user, $pass, $table);
+                return [$type, $dsn, $user, $pass, $table];
             case 'import':
                 $type = static::$config['import']['type'];
                 $dsn = static::$config['import']['dns'];
                 $user = static::$config['import']['user'];
                 $pass = static::$config['import']['pass'];
 
-                return array($type, $dsn, $user, $pass);
+                return [$type, $dsn, $user, $pass];
         }
     }
 
@@ -65,11 +67,11 @@ class BackendPhpPdo
     public $pos = 0;
     // EXCEPTION
     public $message = null;
-    public $trace = array();
+    public $trace = [];
     // BENCH
     public $in = 0;
     public $out = 0;
-    public static $benchs = array();
+    public static $benchs = [];
 
     // Constructors
 
@@ -146,7 +148,7 @@ class BackendPhpPdo
         $in = self::getBench();
         $args = func_get_args();
         try {
-            $pdo_statement = call_user_func_array(array($this->pdo, 'prepare'), $args);
+            $pdo_statement = call_user_func_array([$this->pdo, 'prepare'], $args);
         } catch (Exception $e) {
             self::getException($e);
         }
@@ -159,7 +161,7 @@ class BackendPhpPdo
         $in = self::getBench();
         $args = func_get_args();
         try {
-            $pdo_statement = call_user_func_array(array($this->pdo, 'query'), $args);
+            $pdo_statement = call_user_func_array([$this->pdo, 'query'], $args);
         } catch (Exception $e) {
             self::getException($e);
         }
@@ -167,7 +169,7 @@ class BackendPhpPdo
         return self::getPDOStatement($this->pdo, $pdo_statement, $req, $in);
     }
 
-    public static $dones = array();
+    public static $dones = [];
 
     public function getClass()
     {
@@ -201,7 +203,7 @@ class BackendPhpPdo
             self::getException($class.'::'.$method.' not implemented');
         }
 
-        return call_user_func_array(array($class, $method), $args);
+        return call_user_func_array([$class, $method], $args);
     }
 
     // PDO STATEMENT
@@ -214,7 +216,7 @@ class BackendPhpPdo
         }
         $this->pos = 0;
         $args = func_get_args();
-        $status = call_user_func_array(array($this->pdo_statement, 'execute'), $args);
+        $status = call_user_func_array([$this->pdo_statement, 'execute'], $args);
         self::getBench($this->in, 'execute');
         if (!$status) {
             self::getException($this);
@@ -227,7 +229,7 @@ class BackendPhpPdo
     {
         $args = func_get_args();
         $args[] = PDO::FETCH_ASSOC;
-        $results = call_user_func_array(array($this->pdo_statement, 'fetchAll'), $args);
+        $results = call_user_func_array([$this->pdo_statement, 'fetchAll'], $args);
 
         return $results;
     }
@@ -236,7 +238,7 @@ class BackendPhpPdo
     {
         $args = func_get_args();
         $args[] = PDO::FETCH_NUM;
-        $results = call_user_func_array(array($this->pdo_statement, 'fetchAll'), $args);
+        $results = call_user_func_array([$this->pdo_statement, 'fetchAll'], $args);
 
         return $results;
     }
@@ -244,7 +246,7 @@ class BackendPhpPdo
     public function fetchOne()
     {
         $args = func_get_args();
-        $results = call_user_func_array(array($this->pdo_statement, 'fetchAll'), $args);
+        $results = call_user_func_array([$this->pdo_statement, 'fetchAll'], $args);
         foreach ($results as $k => $result) {
             if (count($result) == 2) {
                 $results[$k] = $result[0];
@@ -257,7 +259,7 @@ class BackendPhpPdo
     public function fetchAll()
     {
         $args = func_get_args();
-        $results = call_user_func_array(array($this->pdo_statement, 'fetchAll'), $args);
+        $results = call_user_func_array([$this->pdo_statement, 'fetchAll'], $args);
         self::getBench($this->in, 'fetch');
 
         return $results;
@@ -286,7 +288,7 @@ class BackendPhpPdo
     {
         switch ($this->what) {
             case 'EXCEPTION':
-                $trace = array();
+                $trace = [];
                 foreach ($this->trace as $e) {
                     if (!isset($e['file'])) {
                         $e['file'] = '<i>user_func</i>';
@@ -330,7 +332,7 @@ class BackendPhpPdo
             case 'EXCEPTION':
                 return $this->trace;
             default:
-                return array();
+                return [];
         }
     }
 
@@ -345,14 +347,14 @@ class BackendPhpPdo
             $datatypes = implode('', $datatypes);
         }
 
-        return array($header, $datatypes);
+        return [$header, $datatypes];
     }
 
     public static function buildXML($pdo)
     {
         list($header, $datatypes) = self::fetchDatatypes($pdo->getLayer('datatypes-file'));
 
-        $xml = array();
+        $xml = [];
         $xml[] = $header;
         $xml[] = '<sql db="'.$pdo->type.'">';
         $xml[] = $datatypes;

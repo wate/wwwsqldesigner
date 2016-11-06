@@ -78,7 +78,7 @@ class LayerPGSQL extends AbstractLayer
         return self::$pdo->prepare($req)->execute()->fetchAll();
     }
 
-    private static $columns = array();
+    private static $columns = [];
 
     public static function Columns($table)
     {
@@ -86,7 +86,7 @@ class LayerPGSQL extends AbstractLayer
             return self::$columns[$table['name']];
         }
         if (!empty(self::$columns)) {
-            return array();
+            return [];
         }
 
         $req = '
@@ -112,7 +112,7 @@ class LayerPGSQL extends AbstractLayer
         return self::$columns[$table['name']];
     }
 
-    private static $relations = array();
+    private static $relations = [];
 
     public static function Relations($table, $column)
     {
@@ -120,7 +120,7 @@ class LayerPGSQL extends AbstractLayer
             return self::$relations[$table['name']][$column['name']];
         }
         if (!empty(self::$relations)) {
-            return array();
+            return [];
         }
 
         $req = '
@@ -146,10 +146,10 @@ class LayerPGSQL extends AbstractLayer
             return self::$relations[$table['name']][$column['name']];
         }
 
-        return array();
+        return [];
     }
 
-    private static $keys = array();
+    private static $keys = [];
 
     public static function Keys($table)
     {
@@ -157,7 +157,7 @@ class LayerPGSQL extends AbstractLayer
             return self::$keys[$table['name']];
         }
         if (!empty(self::$keys)) {
-            return array();
+            return [];
         }
 
         $req = '
@@ -196,7 +196,7 @@ class LayerPGSQL extends AbstractLayer
             ';
         $indexes = self::$pdo->prepare($req)->execute()->fetchAll();
 
-        $keys = array();
+        $keys = [];
         foreach ($contraints as $constraint) {
             if ($constraint['type'] == 'CHECK') {
                 continue;
@@ -217,4 +217,5 @@ class LayerPGSQL extends AbstractLayer
 
         return self::$keys[$table['name']];
     }
+
 }
