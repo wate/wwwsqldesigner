@@ -115,10 +115,21 @@ SQL.Designer.prototype.init2 = function () { /* secondary init, after locale & d
   if (queryVars.keyword) {
     this.io.serverload(false, queryVars.keyword);
   } else if (queryVars.import) {
-    var bp = this.io.owner.getOption("xhrpath");
-    var backendURL = bp + "backend/" + this.io.dom.backend.value + "/?action=import&database=" + queryVars.import;
-    this.io.owner.window.showThrobber();
-    OZ.Request(backendURL, this.importresponse, {xml: true});
+    var backendURL = this.getOption("xhrpath") + "backend/" + this.io.dom.backend.value + "/?action=import&database=" + queryVars.import;
+    this.window.showThrobber();
+    OZ.Request(backendURL, function (data, code) {
+      this.d.window.hideThrobber();
+      if (!this.d.io.check(code)) {
+        return;
+      }
+      if (this.d.io.fromXML(data)) {
+        this.d.alignTables();
+      }
+      this.d.io._name = queryVars.import;
+      if (queryVars.save) {
+        this.d.io.serversave(false, queryVars.import);
+      }
+    }, {xml: true});
   }
   document.body.style.visibility = "visible";
 }
