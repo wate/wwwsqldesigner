@@ -6,14 +6,14 @@ error_reporting(E_ALL);
 $config = [
     'saveloadlist' => [
         'type' => 'mysql',
-        'dns' => 'mysql:dbname=wwwsqldesigner;host=localhost',
+        'dsn' => 'mysql:dbname=wwwsqldesigner;host=localhost',
         'user' => 'wwwsqldesigner',
         'pass' => 'passw0rd',
         'table' => 'wwwsqldesigner',
     ],
     'import' => [
         'type' => 'pgsql',
-        'dns' => 'pgsql:dbname=information_schema;host=localhost',
+        'dsn' => 'pgsql:dbname=information_schema;host=localhost',
         'user' => 'wwwsqldesigner_import_user',
         'pass' => 'import_passw0rd',
     ],
@@ -41,7 +41,7 @@ class BackendPhpPdo
         switch ($id) {
             case 'saveloadlist':
                 $type = static::$config['saveloadlist']['type'];
-                $dsn = static::$config['saveloadlist']['dns'];
+                $dsn = static::$config['saveloadlist']['dsn'];
                 $user = static::$config['saveloadlist']['user'];
                 $pass = static::$config['saveloadlist']['pass'];
                 $table = static::$config['saveloadlist']['table'];
@@ -49,7 +49,7 @@ class BackendPhpPdo
                 return [$type, $dsn, $user, $pass, $table];
             case 'import':
                 $type = static::$config['import']['type'];
-                $dsn = static::$config['import']['dns'];
+                $dsn = static::$config['import']['dsn'];
                 $user = static::$config['import']['user'];
                 $pass = static::$config['import']['pass'];
 
