@@ -105,11 +105,20 @@ SQL.Designer.prototype.init2 = function () { /* secondary init, after locale & d
 
   OZ.$("docs").value = _("docs");
 
-  var url = window.location.href;
-  var r = url.match(/keyword=([^&]+)/);
-  if (r) {
-    var keyword = r[1];
-    this.io.serverload(false, keyword);
+  var queryVars = {}, params = [], tmp;
+  var url = window.location.search;
+  params = url.slice(1).split('&');
+  for (var i = 0; i < params.length; i++) {
+    tmp = params[i].split('=');
+    queryVars[tmp[0].toLowerCase()] = tmp[1];
+  }
+  if (queryVars.keyword) {
+    this.io.serverload(false, queryVars.keyword);
+  } else if (queryVars.import) {
+    var bp = this.io.owner.getOption("xhrpath");
+    var backendURL = bp + "backend/" + this.io.dom.backend.value + "/?action=import&database=" + queryVars.import;
+    this.io.owner.window.showThrobber();
+    OZ.Request(backendURL, this.importresponse, {xml: true});
   }
   document.body.style.visibility = "visible";
 }
