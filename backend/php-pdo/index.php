@@ -14,30 +14,25 @@ class BackendPhpPdo
      */
     protected static $config;
 
-    public static function setConfig(array $config)
-    {
-        static::$config = $config;
-    }
-
     public static function getConfig($id)
     {
         switch ($id) {
             case 'saveloadlist':
 # BEGIN saveloadlist ANSIBLE MANAGED BLOCK
-                $type = static::$config['saveloadlist']['type'];
-                $dsn = static::$config['saveloadlist']['dsn'];
-                $user = static::$config['saveloadlist']['user'];
-                $password = static::$config['saveloadlist']['pass'];
-                $table = static::$config['saveloadlist']['table'];
+                $type = 'pgsql';
+                $dsn = 'pgsql:dbname=wwwsqldesigner';
+                $user = 'wwwsqldesigner';
+                $password = 'xxx';
+                $table = 'wwwsqldesigner';
 # END saveloadlist ANSIBLE MANAGED BLOCK
 
                 return [$type, $dsn, $user, $password, $table];
             case 'import':
 # BEGIN import ANSIBLE MANAGED BLOCK
-                $type = static::$config['import']['type'];
-                $dsn = static::$config['import']['dsn'];
-                $user = static::$config['import']['user'];
-                $password = static::$config['import']['pass'];
+                $type = 'mysql';
+                $dsn = 'mysql:dbname=wwwsqldesigner;host=localhost';
+                $user = 'wwwsqldesigner';
+                $password = 'xxx';
 # END import ANSIBLE MANAGED BLOCK
                 return [$type, $dsn, $user, $password];
         }
