@@ -2,23 +2,6 @@
 
 error_reporting(E_ALL);
 
-# BEGIN ANSIBLE MANAGED BLOCK
-$config = [
-    'saveloadlist' => [
-        'type' => 'mysql',
-        'dsn' => 'mysql:dbname=wwwsqldesigner;host=localhost',
-        'user' => 'wwwsqldesigner',
-        'pass' => 'passw0rd',
-        'table' => 'wwwsqldesigner',
-    ],
-    'import' => [
-        'type' => 'pgsql',
-        'dsn' => 'pgsql:dbname=information_schema;host=localhost',
-        'user' => 'wwwsqldesigner_import_user',
-        'pass' => 'import_passw0rd',
-    ],
-];
-# END ANSIBLE MANAGED BLOCK
 
 BackendPhpPdo::setConfig($config);
 
@@ -40,20 +23,23 @@ class BackendPhpPdo
     {
         switch ($id) {
             case 'saveloadlist':
+# BEGIN saveloadlist ANSIBLE MANAGED BLOCK
                 $type = static::$config['saveloadlist']['type'];
                 $dsn = static::$config['saveloadlist']['dsn'];
                 $user = static::$config['saveloadlist']['user'];
-                $pass = static::$config['saveloadlist']['pass'];
+                $password = static::$config['saveloadlist']['pass'];
                 $table = static::$config['saveloadlist']['table'];
+# END saveloadlist ANSIBLE MANAGED BLOCK
 
-                return [$type, $dsn, $user, $pass, $table];
+                return [$type, $dsn, $user, $password, $table];
             case 'import':
+# BEGIN import ANSIBLE MANAGED BLOCK
                 $type = static::$config['import']['type'];
                 $dsn = static::$config['import']['dsn'];
                 $user = static::$config['import']['user'];
-                $pass = static::$config['import']['pass'];
-
-                return [$type, $dsn, $user, $pass];
+                $password = static::$config['import']['pass'];
+# END import ANSIBLE MANAGED BLOCK
+                return [$type, $dsn, $user, $password];
         }
     }
 
@@ -277,8 +263,8 @@ class BackendPhpPdo
             default: self::getException('Unknown type : '.$type);
                 break;
         }
-        $this->pdo_statement->bindValue(++$this->pos, $value, $type);
 
+        $this->pdo_statement->bindValue(++$this->pos, $value, $type);
         return $this;
     }
 

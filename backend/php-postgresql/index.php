@@ -20,22 +20,26 @@
 // Parameters for the application database
 function setup_saveloadlist()
 {
-    Define("HOST_ADDR", "localhost");   // if the database cluster is on the same server as this application use 'localhost' otherwise the appropriate address (192.168.0.2 for example).
-    Define("PORT_NO", "5432");     // default port is 5432. If you have or had more than one db cluster at the same time, consider ports 5433,... etc.
-    Define("DATABASE_NAME", "wwwsqldesigner");  // leave as is
-    Define("USER_NAME", "wwwsqldesigner");  // leave as is
-    Define("PASSWORD", "xxx");     // leave as is
-    Define("TABLE", "wwwsqldesigner");   // leave as is
+# BEGIN saveloadlist ANSIBLE MANAGED BLOCK
+    define("HOST_ADDR", "localhost");   // if the database cluster is on the same server as this application use 'localhost' otherwise the appropriate address (192.168.0.2 for example).
+    define("PORT_NO", "5432");     // default port is 5432. If you have or had more than one db cluster at the same time, consider ports 5433,... etc.
+    define("DATABASE_NAME", "wwwsqldesigner");  // leave as is
+    define("USER_NAME", "wwwsqldesigner");  // leave as is
+    define("PASSWORD", "xxx");     // leave as is
+    define("TABLE", "wwwsqldesigner");   // leave as is
+# BEGIN saveloadlist ANSIBLE MANAGED BLOCK
 }
 
 // Parameters for the database you want to import in the application
 function setup_import()
 {
-    Define("HOST_ADDR", "localhost"); // if the database cluster is on the same server as this application use 'localhost' otherwise the appropriate address (192.168.0.2 for example).
-    Define("PORT_NO", "5432");   // default port is 5432. If you have or had more than one db cluster at the same time, consider ports 5433,... etc.
-    Define("DATABASE_NAME", "testdb"); // the database you want to import
-    Define("USER_NAME", "username"); // role having rights to read the database
-    Define("PASSWORD", "??????");  // password for role
+# BEGIN import ANSIBLE MANAGED BLOCK
+    define("HOST_ADDR", "localhost"); // if the database cluster is on the same server as this application use 'localhost' otherwise the appropriate address (192.168.0.2 for example).
+    define("PORT_NO", "5432");   // default port is 5432. If you have or had more than one db cluster at the same time, consider ports 5433,... etc.
+    define("DATABASE_NAME", "testdb"); // the database you want to import
+    define("USER_NAME", "username"); // role having rights to read the database
+    define("PASSWORD", "??????");  // password for role
+# BEGIN import ANSIBLE MANAGED BLOCK
 }
 
 function connect()

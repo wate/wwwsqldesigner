@@ -4,19 +4,23 @@ set_time_limit(0);
 
 function setup_saveloadlist()
 {
+# BEGIN saveloadlist ANSIBLE MANAGED BLOCK
     define("SERVER", "localhost");
     define("USER", "");
     define("PASSWORD", "");
     define("DB", "home");
     define("TABLE", "wwwsqldesigner");
+# END saveloadlist ANSIBLE MANAGED BLOCK
 }
 
 function setup_import()
 {
+# BEGIN import ANSIBLE MANAGED BLOCK
     define("SERVER", "localhost");
     define("USER", "");
     define("PASSWORD", "");
     define("DB", "information_schema");
+# END import ANSIBLE MANAGED BLOCK
 }
 
 class mysqlDB
