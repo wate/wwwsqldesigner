@@ -2,17 +2,8 @@
 
 error_reporting(E_ALL);
 
-
-BackendPhpPdo::setConfig($config);
-
 class BackendPhpPdo
 {
-
-    /**
-     *
-     * @var array
-     */
-    protected static $config;
 
     public static function getConfig($id)
     {
@@ -259,7 +250,7 @@ class BackendPhpPdo
                 break;
         }
 
-        $this->pdo_statement->bindValue(++$this->pos, $value, $type);
+        $this->pdo_statement->bindValue( ++$this->pos, $value, $type);
         return $this;
     }
 
