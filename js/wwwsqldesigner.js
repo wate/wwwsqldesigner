@@ -226,7 +226,7 @@ SQL.Designer.prototype.getOption = function (name) {
     case "showtype":
       return 0;
     case "pattern":
-      return "%R_%T";
+      return "%T_%R";
     case "hide":
       return false;
     case "vector":
